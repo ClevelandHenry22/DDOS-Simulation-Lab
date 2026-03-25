@@ -59,7 +59,7 @@ from the internet. The target had no internet access at any point during testing
  
 ---
  
-## 📁 Repository Structure
+##  Repository Structure
  
 ```
 DDoS-SimLab/
@@ -189,13 +189,23 @@ python3 -m http.server 8080
  
 ### What you are looking at — explained simply
  
-Think of it like a **security control room screen** showing a live attack happening and
+Think of this like a **security control room screen** showing a live attack happening and
 the defences responding to it in real time.
  
 ---
  
 ####  Live Traffic Flow Chart (top centre)
+
+### Dashboard — SYN Flood Running
+![SYN Flood Dashboard](screenshots/syn-v.png)
+![SYN Flood Metrics](screenshots/syn_v2.png)
  
+### Dashboard — HTTP Flood Running
+![HTTP Flood Dashboard](screenshots/httpvisual.png)
+![HTTP Flood Metrics](screenshots/httpvis2.png)
+ 
+---
+
 This is the main chart. It has two lines:
  
 - **Red line (ATTACK)** — This shows how many attack packets per second are being fired
@@ -234,10 +244,14 @@ Shows the live statistics of the attack itself:
 - **Half-Open Conns** — How many incomplete TCP connections are piling up on the target
 - **Bandwidth sim.** — Estimated bandwidth the attack is consuming in Mbps
 - **Elapsed** — How long the simulation has been running (minutes:seconds)
+
+![SYN Flood Metrics](screenshots/syn_v2.png)
  
 ---
  
 ####  Defence Metrics Panel (bottom centre — green)
+
+ ![HTTP Flood Metrics](screenshots/httpvis2.png)
  
 Shows how the defence layer is responding:
  
@@ -265,6 +279,8 @@ automatically banned during the simulation, shown as purple tags.
 ---
  
 ####  Event Log Terminal (bottom right)
+
+![HTTP Flood Metrics](screenshots/httpvis2.png)
  
 A scrolling log of everything happening in real time, colour coded:
  
@@ -290,7 +306,9 @@ showing the defence keeping pace with the attack.
 ---
  
 ### The Buttons — what each one does
- 
+
+![SYN Flood Dashboard](screenshots/syn-v.png)
+
 | Button | What it does |
 |---|---|
 | **SYN FLOOD** tab | Switches the simulation to show a TCP SYN flood — higher packet rates, spoofed IPs, half-open connections |
