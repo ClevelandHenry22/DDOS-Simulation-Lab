@@ -34,19 +34,7 @@ This project allowed me to understand how these attacks are structured, executed
 **This project was conducted strictly in an isolated VirtualBox lab environment.**
 
 ---
- 
 
- 
-### Dashboard — SYN Flood Running
-![SYN Flood Dashboard](screenshots/syn-v.png)
-![SYN Flood Metrics](screenshots/syn_v2.png)
- 
-### Dashboard — HTTP Flood Running
-![HTTP Flood Dashboard](screenshots/httpvisual.png)
-![HTTP Flood Metrics](screenshots/httpvis2.png)
- 
----
- 
 ##  Lab Environment
  
 | Machine | OS | IP Address | Role |
@@ -97,7 +85,7 @@ Simulates a **Layer 3/4 volumetric attack** using Scapy to craft and send raw TC
 packets with randomised spoofed source IP addresses toward the target.
  
 **How a SYN Flood works:**
-Every connection on the internet starts with a "handshake" — your computer says *SYN*
+**Every connection on the internet starts with a "handshake"** — your computer says *SYN*
 (hello), the server replies *SYN-ACK* (hello back), and you reply *ACK* (got it, let's
 talk). In a SYN flood, the attacker sends thousands of SYN hellos with fake return
 addresses. The server keeps waiting for the final ACK that never comes, filling up its
@@ -176,7 +164,7 @@ It runs entirely in your browser — no internet connection needed.
  
 ### How to open it
  
-```bash
+```
 # Start a local server from inside the dashboard folder
 cd ~/DDoS-SimLab/dashboard
 python3 -m http.server 8080
@@ -330,7 +318,7 @@ Both VMs must be on a **Host-Only adapter** in VirtualBox:
  
 ### Step 2 — Install web server on target (Cisco Linux VM)
  
-```bash
+```
 # On the Cisco Lab Linux VM
 sudo apt update && sudo apt install apache2 -y
 sudo systemctl start apache2
@@ -342,7 +330,7 @@ nmap -sV 192.168.56.8 -p 80
  
 ### Step 3 — Install Scapy on Kali
  
-```bash
+```
 # Use apt — cleanest method on modern Kali
 sudo apt install python3-scapy -y
  
@@ -364,7 +352,7 @@ chmod 755 ~/DDoS-SimLab
  
 ### Step 5 — Verify connectivity
  
-```bash
+```
 # From Kali — must succeed
 ping -c 3 192.168.56.8
  
@@ -374,7 +362,7 @@ nmap 192.168.56.8 -p 80
  
 ### Step 6 — Start Wireshark (before running attacks)
  
-```bash
+```
 sudo wireshark &
 # Select your Host-Only interface (eth1 or vboxnet0)
 # Start capture — leave it running throughout
@@ -382,7 +370,7 @@ sudo wireshark &
  
 ### Step 7 — Run the SYN Flood
  
-```bash
+```
 cd ~/DDoS-SimLab/scripts
 sudo python3 syn_flood.py 192.168.56.8 -p 80 -d 30 -t 10
 ```
@@ -393,18 +381,18 @@ tcp.flags.syn == 1 && tcp.flags.ack == 0
 ```
  
 On the target VM, watch connections pile up:
-```bash
+```
 watch -n 1 'netstat -an | grep SYN_RECV | wc -l'
 ```
  
 ### Step 8 — Run the HTTP Flood
  
-```bash
+```
 python3 http_flood.py 192.168.56.8 -p 80 -d 30 -t 50
 ```
  
 Watch Apache being hit on the target:
-```bash
+```
 sudo tail -f /var/log/apache2/access.log
 ```
  
@@ -415,7 +403,7 @@ http.request.method == "GET" && ip.dst == 192.168.56.8
  
 ### Step 9 — Run the Defence Simulation
  
-```bash
+```
 python3 defense.py -d 30
 ```
  
@@ -426,13 +414,13 @@ Watch for:
  
 ### Step 10 — Run everything in one command
  
-```bash
+```
 sudo python3 run_lab.py --mode full --target 192.168.56.8 --duration 30
 ```
  
 ### Step 11 — Open the Dashboard
  
-```bash
+```
 cd ~/DDoS-SimLab/dashboard
 python3 -m http.server 8080
 # Open Firefox → http://localhost:8080
@@ -485,13 +473,13 @@ solution because they require no state until the handshake is proven genuine.
  
 | Priority | Mitigation | Attack it stops |
 |---|---|---|
-| 🔴 Critical | Enable SYN Cookies at kernel level (`sysctl net.ipv4.tcp_syncookies=1`) | SYN Flood |
-| 🔴 Critical | Deploy a WAF or CDN with rate limiting (Cloudflare, AWS Shield) | Both |
-| 🟠 High | Configure per-IP connection throttling at firewall level | HTTP Flood |
-| 🟠 High | Implement IP reputation blacklisting | Both |
-| 🟡 Medium | Set up anomaly-based traffic baselining and alerting | Both |
-| 🟡 Medium | Tune TCP backlog: `sysctl net.ipv4.tcp_max_syn_backlog=4096` | SYN Flood |
-| 🟢 Low | Configure RTBH (Remote Triggered Blackhole Routing) for volumetric overflow | SYN Flood |
+|  Critical | Enable SYN Cookies at kernel level (`sysctl net.ipv4.tcp_syncookies=1`) | SYN Flood |
+|  Critical | Deploy a WAF or CDN with rate limiting (Cloudflare, AWS Shield) | Both |
+|  High | Configure per-IP connection throttling at firewall level | HTTP Flood |
+|  High | Implement IP reputation blacklisting | Both |
+|  Medium | Set up anomaly-based traffic baselining and alerting | Both |
+|  Medium | Tune TCP backlog: `sysctl net.ipv4.tcp_max_syn_backlog=4096` | SYN Flood |
+|  Low | Configure RTBH (Remote Triggered Blackhole Routing) for volumetric overflow | SYN Flood |
  
 ### Linux hardening commands tested in this lab
  
