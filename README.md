@@ -323,20 +323,20 @@ Both VMs must be on a **Host-Only adapter** in VirtualBox:
 sudo apt update && sudo apt install apache2 -y
 sudo systemctl start apache2
 ```
-[start](screenshots/start.png)
+![start](screenshots/start.png)
 
-[apache](screenshots/1.1.png)
+![apache](screenshots/1.1.png)
 
 ```
 # Verify from Kali
 nmap -sV 192.168.56.8 -p 80
 # Expected: 80/tcp open http Apache httpd
 ```
-[start2](screenshots/start2.png)
+![start2](screenshots/start2.png)
 
-[start3](screenshots/st3.png)
+![start3](screenshots/st3.png)
 
-[files](screenshots/files.png)
+![files](screenshots/files.png)
 
 ### Step 3 — Install Scapy on Kali
  
@@ -347,7 +347,7 @@ sudo apt install python3-scapy -y
 # Verify
 sudo python3 -c "from scapy.all import IP, TCP, send; print('Scapy ready')"
 ```
-[scapy](screenshots/scapy.png)
+![scapy](screenshots/scapy.png)
 
 ### Step 4 — Fix file permissions 
  *Aftern creating the files in DDOS-SimLab folder make them executable this will come handy in the future*:
@@ -385,51 +385,51 @@ sudo wireshark &
 cd ~/DDoS-SimLab/scripts
 sudo python3 syn_flood.py 192.168.56.8 -p 80 -d 30 -t 10
 ```
-[last1](screenshots/synflood.png)
+![last1](screenshots/synflood.png)
 
 Wireshark filter to see only SYN packets:
 ```
 tcp.flags.syn == 1 && tcp.flags.ack == 0
 ```
-[Wireshark syn](screenshots/wireshark.png)
+![Wireshark syn](screenshots/wireshark.png)
 
 On the target VM, watch connections pile up:
 ```
 watch -n 1 'netstat -an | grep SYN_RECV | wc -l'
 ```
-[target1](screenshots/cpu_mem_usage.png)
+![target1](screenshots/cpu_mem_usage.png)
 
-[target2](screenshots/cpu_mem_usage2.png)
+![target2](screenshots/cpu_mem_usage2.png)
 
 ### Step 8 — Run the HTTP Flood
  
 ```
 python3 http_flood.py 192.168.56.8 -p 80 -d 30 -t 50
 ```
-[http-flood](screenshots/httpflood.png)
+![http-flood](screenshots/httpflood.png)
 
 Watch Apache being hit on the target:
 ```
 sudo tail -f /var/log/apache2/access.log
 ```
-[apache](screenshots/apachelog.png)
+![apache](screenshots/apachelog.png)
 
-[apache2](screenshots/ch3.png)
+![apache2](screenshots/ch3.png)
 
 Wireshark filter:
 ```
 http.request.method == "GET" && ip.dst == 192.168.56.8
 ```
-[wireshark2](screenshots/wshark2.png)
+![wireshark2](screenshots/wshark2.png)
 
 ### Step 9 — Run the Defence Simulation
  
 ```
 python3 defense.py -d 30
 ```
-[defence](screenshots/defence.png)
+![defence](screenshots/defence.png)
 
-[defence-results](screenshots/def_res.png)
+![defence-results](screenshots/def_res.png)
 
 Watch for:
 - IPs being automatically blacklisted (purple text)
@@ -441,13 +441,13 @@ Watch for:
 ```
 sudo python3 run_lab.py --mode full --target 192.168.56.8 --duration 30
 ```
-[last](screenshots/last1.png)
+![last](screenshots/last1.png)
 
-[last2](screenshots/last2.png)
+![last2](screenshots/last2.png)
 
-[last3](screenshots/last3.png)
+![last3](screenshots/last3.png)
 
-[list](screenshots/list.png)
+![list](screenshots/list.png)
 
 
 
