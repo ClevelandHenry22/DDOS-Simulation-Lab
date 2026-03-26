@@ -70,7 +70,7 @@ DDoS-SimLab/
 │   └── full_lab_report.json
 │
 ├── report/
-│   └── DDoS_Lab_Report.docx     ← Full professional lab report
+│   └── report.md     ← Full professional lab report
 │
 └── screenshots/                 ← Real lab evidence — terminal + dashboard captures
 ```
@@ -302,9 +302,9 @@ showing the defence keeping pace with the attack.
 | **SYN FLOOD** tab | Switches the simulation to show a TCP SYN flood — higher packet rates, spoofed IPs, half-open connections |
 | **HTTP FLOOD** tab | Switches to an HTTP application-layer flood — lower packet rate but valid-looking web requests |
 | **LAUNCH** | Starts the simulation — all charts begin animating and metrics start counting up |
-| ** STOP** | Pauses the simulation — charts freeze at their current values |
-| ** RESET** | Clears everything back to zero — wipes all counters, charts, logs, and blacklisted IPs |
-| ** TOGGLE** (Defence) | Turns the entire defence layer on or off. Turn it OFF and watch the block rate drop to 0% and the green line disappear — showing what happens with no protection in place |
+| **STOP** | Pauses the simulation — charts freeze at their current values |
+| **RESET** | Clears everything back to zero — wipes all counters, charts, logs, and blacklisted IPs |
+| **TOGGLE** (Defence) | Turns the entire defence layer on or off. Turn it OFF and watch the block rate drop to 0% and the green line disappear — showing what happens with no protection in place |
  
 ---
  
